@@ -55,3 +55,15 @@ pub fn nextcode() -> Result<String, i32> {
         Ok(String::from(r.unwrap()))
     }
 }
+
+pub fn code2char(conf: config, code: String) -> Result<String, i32> {
+    unsafe {
+        let mut c = MaybeUninit::uninit();
+        let ret = lirc_code2char(config.raw, code.as_ptr(), c);
+        if ret != 0 {
+            Err(ret);
+        }
+        let r = std::ffi::CStr::from_ptr(c.as_mut_ptr()).to_str();
+        Ok(String::from(r.unwrap()))
+    }
+}
