@@ -14,6 +14,7 @@ pub struct lirc_config {
 impl lirc_config {
     pub fn new() -> Result<Self, i32> {
         unsafe {
+            // TODO Use MaybeUninit()
             let mut raw: *mut lirc_config_raw = std::mem::uninitialized();
             lirc_readconfig(std::ptr::null(), &mut raw, None);
             return Ok(lirc_config{raw});
@@ -47,6 +48,7 @@ pub fn deinit() -> i32{
 #[must_use]
 pub fn nextcode() -> Result<String, i32> {
     unsafe {
+        // TODO Use MaybeUninit()
         let mut ptr: *mut ::std::os::raw::c_char = std::mem::uninitialized();
         let ret = lirc_nextcode( &mut ptr);
         if ret != 0 {
