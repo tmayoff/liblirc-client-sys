@@ -59,11 +59,12 @@ pub fn nextcode() -> Result<String, i32> {
 pub fn code2char(conf: config, code: String) -> Result<String, i32> {
     unsafe {
         let mut c = MaybeUninit::uninit();
-        let ret = lirc_code2char(config.raw, code.as_ptr(), c);
+        let ret = lirc_code2char(conf.raw.as_ptr() as *mut lirc_config, code.as_ptr() as *mut i8, c.as_mut_ptr());
         if ret != 0 {
-            Err(ret);
+            return Err(ret);
         }
-        let r = std::ffi::CStr::from_ptr(c.as_mut_ptr()).to_str();
+
+        let r = std::ffi::CStr::from_ptr(c.assume_init()).to_str();
         Ok(String::from(r.unwrap()))
     }
 }
