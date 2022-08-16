@@ -624,23 +624,23 @@ extern "C" {
             unsafe extern "C" fn(s: *mut ::std::os::raw::c_char) -> ::std::os::raw::c_int,
         >,
     ) -> ::std::os::raw::c_int;
+
+    pub fn lirc_freeconfig(config: *mut lirc_config_raw);
+ 
+    pub fn lirc_nextcode(code: *mut *mut ::std::os::raw::c_char) -> ::std::os::raw::c_int;
 }
 
 extern "C" {
-    pub fn lirc_freeconfig(config: *mut lirc_config_raw);
-}
-extern "C" {
     pub fn lirc_nextir() -> *mut ::std::os::raw::c_char;
 }
+
 extern "C" {
     pub fn lirc_ir2char(
         config: *mut lirc_config_raw,
         code: *mut ::std::os::raw::c_char,
     ) -> *mut ::std::os::raw::c_char;
 }
-extern "C" {
-    pub fn lirc_nextcode(code: *mut *mut ::std::os::raw::c_char) -> ::std::os::raw::c_int;
-}
+
 extern "C" {
     pub fn lirc_code2char(
         config: *mut lirc_config_raw,

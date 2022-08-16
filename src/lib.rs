@@ -2,7 +2,7 @@
 #![allow(non_camel_case_types)]
 #![allow(non_snake_case)]
 
-use std::ffi::{CString};
+use std::{ffi::{CString}};
 use Result;
 
 include!("./bindings.rs");
@@ -45,9 +45,15 @@ pub fn deinit() -> i32{
 }
 
 #[must_use]
-pub fn nextcode(code: &String) -> i32 {
+pub fn nextcode() -> Result<String, i32> {
     unsafe {
-        let c = CString::new(prog).unwrap().into_raw();
-        lirc_nextcode(c);
+        let mut ptr: *mut ::std::os::raw::c_char = std::mem::uninitialized();
+        let ret = lirc_nextcode( &mut ptr);
+        if ret != 0 {
+            return Err(ret);
+        }
+
+        let r = std::ffi::CStr::from_ptr(ptr).to_str();
+        return Ok(String::from(r.unwrap()));
     }
 }
