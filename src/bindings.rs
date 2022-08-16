@@ -144,7 +144,7 @@ fn bindgen_test_layout_lirc_code() {
 
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
-pub struct lirc_config_raw {
+pub struct lirc_config {
     pub lircrc_class: *mut ::std::os::raw::c_char,
     pub current_mode: *mut ::std::os::raw::c_char,
     pub next: *mut lirc_config_entry,
@@ -155,26 +155,26 @@ pub struct lirc_config_raw {
 #[test]
 fn bindgen_test_layout_lirc_config() {
     assert_eq!(
-        ::std::mem::size_of::<lirc_config_raw>(),
+        ::std::mem::size_of::<lirc_config>(),
         20usize,
-        concat!("Size of: ", stringify!(lirc_config_raw))
+        concat!("Size of: ", stringify!(lirc_config))
     );
     assert_eq!(
-        ::std::mem::align_of::<lirc_config_raw>(),
+        ::std::mem::align_of::<lirc_config>(),
         4usize,
-        concat!("Alignment of ", stringify!(lirc_config_raw))
+        concat!("Alignment of ", stringify!(lirc_config))
     );
     fn test_field_lircrc_class() {
         assert_eq!(
             unsafe {
-                let uninit = ::std::mem::MaybeUninit::<lirc_config_raw>::uninit();
+                let uninit = ::std::mem::MaybeUninit::<lirc_config>::uninit();
                 let ptr = uninit.as_ptr();
                 ::std::ptr::addr_of!((*ptr).lircrc_class) as usize - ptr as usize
             },
             0usize,
             concat!(
                 "Offset of field: ",
-                stringify!(lirc_config_raw),
+                stringify!(lirc_config),
                 "::",
                 stringify!(lircrc_class)
             )
@@ -184,14 +184,14 @@ fn bindgen_test_layout_lirc_config() {
     fn test_field_current_mode() {
         assert_eq!(
             unsafe {
-                let uninit = ::std::mem::MaybeUninit::<lirc_config_raw>::uninit();
+                let uninit = ::std::mem::MaybeUninit::<lirc_config>::uninit();
                 let ptr = uninit.as_ptr();
                 ::std::ptr::addr_of!((*ptr).current_mode) as usize - ptr as usize
             },
             4usize,
             concat!(
                 "Offset of field: ",
-                stringify!(lirc_config_raw),
+                stringify!(lirc_config),
                 "::",
                 stringify!(current_mode)
             )
@@ -201,14 +201,14 @@ fn bindgen_test_layout_lirc_config() {
     fn test_field_next() {
         assert_eq!(
             unsafe {
-                let uninit = ::std::mem::MaybeUninit::<lirc_config_raw>::uninit();
+                let uninit = ::std::mem::MaybeUninit::<lirc_config>::uninit();
                 let ptr = uninit.as_ptr();
                 ::std::ptr::addr_of!((*ptr).next) as usize - ptr as usize
             },
             8usize,
             concat!(
                 "Offset of field: ",
-                stringify!(lirc_config_raw),
+                stringify!(lirc_config),
                 "::",
                 stringify!(next)
             )
@@ -218,14 +218,14 @@ fn bindgen_test_layout_lirc_config() {
     fn test_field_first() {
         assert_eq!(
             unsafe {
-                let uninit = ::std::mem::MaybeUninit::<lirc_config_raw>::uninit();
+                let uninit = ::std::mem::MaybeUninit::<lirc_config>::uninit();
                 let ptr = uninit.as_ptr();
                 ::std::ptr::addr_of!((*ptr).first) as usize - ptr as usize
             },
             12usize,
             concat!(
                 "Offset of field: ",
-                stringify!(lirc_config_raw),
+                stringify!(lirc_config),
                 "::",
                 stringify!(first)
             )
@@ -235,14 +235,14 @@ fn bindgen_test_layout_lirc_config() {
     fn test_field_sockfd() {
         assert_eq!(
             unsafe {
-                let uninit = ::std::mem::MaybeUninit::<lirc_config_raw>::uninit();
+                let uninit = ::std::mem::MaybeUninit::<lirc_config>::uninit();
                 let ptr = uninit.as_ptr();
                 ::std::ptr::addr_of!((*ptr).sockfd) as usize - ptr as usize
             },
             16usize,
             concat!(
                 "Offset of field: ",
-                stringify!(lirc_config_raw),
+                stringify!(lirc_config),
                 "::",
                 stringify!(sockfd)
             )
@@ -266,6 +266,7 @@ pub struct lirc_config_entry {
     pub next_code: *mut lirc_code,
     pub next: *mut lirc_config_entry,
 }
+
 #[test]
 fn bindgen_test_layout_lirc_config_entry() {
     assert_eq!(
@@ -483,6 +484,7 @@ fn bindgen_test_layout_lirc_config_entry() {
     }
     test_field_next();
 }
+
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
 pub struct lirc_cmd_ctx {
@@ -493,6 +495,7 @@ pub struct lirc_cmd_ctx {
     pub reply_to_stdout: ::std::os::raw::c_int,
     pub next: *mut ::std::os::raw::c_char,
 }
+
 #[test]
 fn bindgen_test_layout_lirc_cmd_ctx() {
     assert_eq!(
@@ -619,13 +622,13 @@ extern "C" {
 
     pub fn lirc_readconfig(
         path: *const ::std::os::raw::c_char,
-        config: *mut *mut lirc_config_raw,
+        config: *mut *mut lirc_config,
         check: ::std::option::Option<
             unsafe extern "C" fn(s: *mut ::std::os::raw::c_char) -> ::std::os::raw::c_int,
         >,
     ) -> ::std::os::raw::c_int;
 
-    pub fn lirc_freeconfig(config: *mut lirc_config_raw);
+    pub fn lirc_freeconfig(config: *mut lirc_config);
  
     pub fn lirc_nextcode(code: *mut *mut ::std::os::raw::c_char) -> ::std::os::raw::c_int;
 }
@@ -636,14 +639,14 @@ extern "C" {
 
 extern "C" {
     pub fn lirc_ir2char(
-        config: *mut lirc_config_raw,
+        config: *mut lirc_config,
         code: *mut ::std::os::raw::c_char,
     ) -> *mut ::std::os::raw::c_char;
 }
 
 extern "C" {
     pub fn lirc_code2char(
-        config: *mut lirc_config_raw,
+        config: *mut lirc_config,
         code: *mut ::std::os::raw::c_char,
         string: *mut *mut ::std::os::raw::c_char,
     ) -> ::std::os::raw::c_int;
@@ -651,7 +654,7 @@ extern "C" {
 extern "C" {
     pub fn lirc_readconfig_only(
         file: *const ::std::os::raw::c_char,
-        config: *mut *mut lirc_config_raw,
+        config: *mut *mut lirc_config,
         check: ::std::option::Option<
             unsafe extern "C" fn(s: *mut ::std::os::raw::c_char) -> ::std::os::raw::c_int,
         >,
@@ -659,7 +662,7 @@ extern "C" {
 }
 extern "C" {
     pub fn lirc_code2charprog(
-        config: *mut lirc_config_raw,
+        config: *mut lirc_config,
         code: *mut ::std::os::raw::c_char,
         string: *mut *mut ::std::os::raw::c_char,
         prog: *mut *mut ::std::os::raw::c_char,
@@ -673,11 +676,11 @@ extern "C" {
     ) -> size_t;
 }
 extern "C" {
-    pub fn lirc_getmode(config: *mut lirc_config_raw) -> *const ::std::os::raw::c_char;
+    pub fn lirc_getmode(config: *mut lirc_config) -> *const ::std::os::raw::c_char;
 }
 extern "C" {
     pub fn lirc_setmode(
-        config: *mut lirc_config_raw,
+        config: *mut lirc_config,
         mode: *const ::std::os::raw::c_char,
     ) -> *const ::std::os::raw::c_char;
 }

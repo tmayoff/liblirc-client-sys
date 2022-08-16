@@ -2,30 +2,28 @@
 #![allow(non_camel_case_types)]
 #![allow(non_snake_case)]
 
-use std::{ffi::{CString}};
-use Result;
+use std::{ffi::{CString}, mem::MaybeUninit};
 
 include!("./bindings.rs");
 
-pub struct lirc_config {
-    raw: *mut lirc_config_raw,
+pub struct config {
+    raw: MaybeUninit<lirc_config>,
 }
 
-impl lirc_config {
+impl config {
     pub fn new() -> Result<Self, i32> {
         unsafe {
-            // TODO Use MaybeUninit()
-            let mut raw: *mut lirc_config_raw = std::mem::uninitialized();
-            lirc_readconfig(std::ptr::null(), &mut raw, None);
-            return Ok(lirc_config{raw});
+            let mut raw = MaybeUninit::uninit();
+            lirc_readconfig(std::ptr::null(), &mut raw.as_mut_ptr(), None);
+            Ok(config{raw})
         }
     }
 }
 
-impl Drop for lirc_config {
+impl Drop for config {
     fn drop (&mut self) {
         unsafe {
-            lirc_freeconfig(self.raw);
+            lirc_freeconfig(self.raw.as_mut_ptr());
         }
     }
 }
@@ -34,28 +32,26 @@ impl Drop for lirc_config {
 pub fn init(prog: &str, verbose: u32) -> i32{
     unsafe {
         let prog_str = CString::new(prog).unwrap().into_raw();
-        return lirc_init(prog_str, verbose);
+        lirc_init(prog_str, verbose)
     }
 }
 
 #[must_use]
 pub fn deinit() -> i32{
     unsafe {
-        return lirc_deinit();
+        lirc_deinit()
     }
 }
 
-#[must_use]
 pub fn nextcode() -> Result<String, i32> {
     unsafe {
-        // TODO Use MaybeUninit()
-        let mut ptr: *mut ::std::os::raw::c_char = std::mem::uninitialized();
-        let ret = lirc_nextcode( &mut ptr);
+        let mut ptr = MaybeUninit::uninit();
+        let ret = lirc_nextcode( &mut ptr.as_mut_ptr());
         if ret != 0 {
             return Err(ret);
         }
 
-        let r = std::ffi::CStr::from_ptr(ptr).to_str();
-        return Ok(String::from(r.unwrap()));
+        let r = std::ffi::CStr::from_ptr(ptr.as_mut_ptr()).to_str();
+        Ok(String::from(r.unwrap()))
     }
 }
