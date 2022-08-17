@@ -6,10 +6,17 @@ use std::{ffi::{CString}, mem::MaybeUninit};
 
 include!("./bindings.rs");
 
-pub fn readconfig(path: &str) -> Result<lirc_config, i32> {
+pub fn readconfig(_path: Option<&str>) -> Result<lirc_config, i32> {
     unsafe {
         let mut raw = MaybeUninit::uninit();
-        let ret = lirc_readconfig(path.as_ptr(), raw.as_mut_ptr(), None);
+
+        // let ret: i32;
+        // if path.is_some() {
+        //     ret = lirc_readconfig(path.expect("None").as_ptr(), raw.as_mut_ptr(), None);
+        // } else {
+        let ret = lirc_readconfig(std::ptr::null(), raw.as_mut_ptr(), None);
+        // }
+
         if ret != 0 {
             return Err(ret);
         }
@@ -41,22 +48,21 @@ pub fn deinit() -> i32{
 
 pub fn nextcode() -> Result<String, i32> {
     unsafe {
-        let mut ptr = MaybeUninit::uninit();
-        let ret = lirc_nextcode( &mut ptr.as_mut_ptr());
+        let mut str_buf = MaybeUninit::uninit();
+        let ret = lirc_nextcode(str_buf.as_mut_ptr());
         if ret != 0 {
             return Err(ret);
         }
 
-        let r = std::ffi::CStr::from_ptr(ptr.as_mut_ptr()).to_str();
+        let r = std::ffi::CStr::from_ptr(str_buf.assume_init()).to_str();
         Ok(String::from(r.unwrap()))
     }
 }
 
-pub fn code2char(mut conf: lirc_config, code: String) -> Result<String, i32> {
+pub fn code2char(mut conf: lirc_config, mut code: String) -> Result<String, i32> {
     unsafe {
         let mut c = MaybeUninit::uninit();
-
-        let ret = lirc_code2char(&mut conf, code.as_ptr(), c.as_mut_ptr());
+        let ret = lirc_code2char(&mut conf, code.as_mut_ptr(), c.as_mut_ptr());
         if ret != 0 {
             return Err(ret);
         }
