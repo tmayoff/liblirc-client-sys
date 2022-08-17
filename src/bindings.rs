@@ -631,6 +631,12 @@ extern "C" {
     pub fn lirc_freeconfig(config: *mut lirc_config);
  
     pub fn lirc_nextcode(code: *mut *mut ::std::os::raw::c_char) -> ::std::os::raw::c_int;
+
+    pub fn lirc_code2char(
+        config: *mut lirc_config,
+        code: *mut ::std::os::raw::c_char,
+        string: *mut *mut ::std::os::raw::c_char,
+    ) -> ::std::os::raw::c_int;
 }
 
 extern "C" {
@@ -644,13 +650,6 @@ extern "C" {
     ) -> *mut ::std::os::raw::c_char;
 }
 
-extern "C" {
-    pub fn lirc_code2char(
-        config: *mut lirc_config,
-        code: *mut ::std::os::raw::c_char,
-        string: *mut *mut ::std::os::raw::c_char,
-    ) -> ::std::os::raw::c_int;
-}
 extern "C" {
     pub fn lirc_readconfig_only(
         file: *const ::std::os::raw::c_char,
