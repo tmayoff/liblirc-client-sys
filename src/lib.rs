@@ -6,25 +6,21 @@ use std::{ffi::{CString}, mem::MaybeUninit};
 
 include!("./bindings.rs");
 
-pub struct config {
-    raw: MaybeUninit<lirc_config>,
-}
-
-impl config {
-    pub fn new() -> Result<Self, i32> {
-        unsafe {
-            let mut raw = MaybeUninit::uninit();
-            lirc_readconfig(std::ptr::null(), &mut raw.as_mut_ptr(), None);
-            Ok(config{raw})
+pub fn readconfig(path: &str) -> Result<lirc_config, i32> {
+    unsafe {
+        let mut raw = MaybeUninit::uninit();
+        let ret = lirc_readconfig(path.as_ptr() as *mut i8, raw.as_mut_ptr(), None);
+        if ret != 0 {
+            return Err(ret);
         }
+
+        Ok(std::ptr::read(raw.assume_init()))
     }
 }
 
-impl Drop for config {
-    fn drop (&mut self) {
-        unsafe {
-            lirc_freeconfig(self.raw.as_mut_ptr());
-        }
+pub fn freeconfig(mut conf: lirc_config) {
+    unsafe {
+        lirc_freeconfig(&mut conf);
     }
 }
 
@@ -56,10 +52,11 @@ pub fn nextcode() -> Result<String, i32> {
     }
 }
 
-pub fn code2char(conf: config, code: String) -> Result<String, i32> {
+pub fn code2char(mut conf: lirc_config, code: String) -> Result<String, i32> {
     unsafe {
         let mut c = MaybeUninit::uninit();
-        let ret = lirc_code2char(conf.raw.as_ptr() as *mut lirc_config, code.as_ptr() as *mut i8, c.as_mut_ptr());
+
+        let ret = lirc_code2char(&mut conf, code.as_ptr() as *mut i8, c.as_mut_ptr());
         if ret != 0 {
             return Err(ret);
         }
