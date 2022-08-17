@@ -62,7 +62,7 @@ pub fn nextcode() -> Result<String, i32> {
 pub fn code2char(mut conf: lirc_config, mut code: String) -> Result<String, i32> {
     unsafe {
         let mut c = MaybeUninit::uninit();
-        let ret = lirc_code2char(&mut conf, code.as_mut_ptr() as *mut i8, c.as_mut_ptr());
+        let ret = lirc_code2char(&mut conf, code.as_mut_ptr() as *mut u8, c.as_mut_ptr());
         if ret != 0 {
             return Err(ret);
         }
