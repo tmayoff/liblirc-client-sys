@@ -62,12 +62,24 @@ pub fn nextcode() -> Result<String, i32> {
 pub fn code2char(mut conf: lirc_config, mut code: String) -> Result<String, i32> {
     unsafe {
         let mut c = MaybeUninit::uninit();
-        let ret = lirc_code2char(&mut conf, code.as_mut_ptr() as *mut i8, c.as_mut_ptr());
+        let ret = lirc_code2char(&mut conf, code.as_mut_ptr() as *mut u8, c.as_mut_ptr());
         if ret != 0 {
             return Err(ret);
         }
 
         let r = std::ffi::CStr::from_ptr(c.assume_init()).to_str();
         Ok(String::from(r.unwrap()))
+    }
+}
+
+pub fn get_local_socket(path: &str, quiet: bool) -> Result<i32, i32> {
+    unsafe {
+        let q = if quiet { 1 } else { 0 };
+        let r = lirc_get_local_socket(path.as_ptr(), q);
+        if r < 0 {
+            return Err(r);
+        }
+
+        Ok(r)
     }
 }
