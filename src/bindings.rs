@@ -634,8 +634,13 @@ extern "C" {
 
     pub fn lirc_code2char(
         config: *mut lirc_config,
-        code: *mut ::std::os::raw::c_char,
-        string: *mut *mut ::std::os::raw::c_char,
+        code: *mut u8,
+        string: *mut *mut u8,
+    ) -> ::std::os::raw::c_int;
+
+    pub fn lirc_get_local_socket(
+        path: *const ::std::os::raw::c_char,
+        quiet: ::std::os::raw::c_int,
     ) -> ::std::os::raw::c_int;
 }
 
@@ -723,8 +728,5 @@ extern "C" {
     ) -> ::std::os::raw::c_int;
 }
 extern "C" {
-    pub fn lirc_get_local_socket(
-        path: *const ::std::os::raw::c_char,
-        quiet: ::std::os::raw::c_int,
-    ) -> ::std::os::raw::c_int;
+    
 }

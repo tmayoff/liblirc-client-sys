@@ -71,3 +71,15 @@ pub fn code2char(mut conf: lirc_config, mut code: String) -> Result<String, i32>
         Ok(String::from(r.unwrap()))
     }
 }
+
+pub fn get_local_socket(path: &str, quiet: bool) -> Result<i32, i32> {
+    unsafe {
+        let q = if quiet { 1 } else { 0 };
+        let r = lirc_get_local_socket(path.as_ptr(), q);
+        if r < 0 {
+            return Err(r);
+        }
+
+        Ok(r)
+    }
+}
