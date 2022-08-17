@@ -9,7 +9,7 @@ include!("./bindings.rs");
 pub fn readconfig(path: &str) -> Result<lirc_config, i32> {
     unsafe {
         let mut raw = MaybeUninit::uninit();
-        let ret = lirc_readconfig(path.as_ptr() as *mut i8, raw.as_mut_ptr(), None);
+        let ret = lirc_readconfig(path.as_ptr(), raw.as_mut_ptr(), None);
         if ret != 0 {
             return Err(ret);
         }
