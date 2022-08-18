@@ -83,3 +83,15 @@ pub fn get_local_socket(path: &str, quiet: bool) -> Result<i32, i32> {
         Ok(r)
     }
 }
+
+pub fn get_remote_socket(host: &str, port: i32, quiet: bool) -> Result<i32, i32> {
+    unsafe {
+        let q: i32 = if quiet { 1 } else { 0 };
+        let r = lirc_get_remote_socket(host.as_ptr(), port, q);
+        if r < 0 {
+            return Err(r);
+        }
+
+        Ok(r)
+    }
+}
