@@ -34,8 +34,8 @@ pub fn freeconfig(mut conf: lirc_config) {
 #[must_use]
 pub fn init(prog: &str, verbose: u32) -> i32{
     unsafe {
-        let prog_str = CString::new(prog).unwrap().into_raw();
-        lirc_init(prog_str, verbose)
+        let prog_str = CString::new(prog).unwrap();
+        lirc_init(prog_str.as_ptr(), verbose)
     }
 }
 
@@ -43,6 +43,14 @@ pub fn init(prog: &str, verbose: u32) -> i32{
 pub fn deinit() -> i32{
     unsafe {
         lirc_deinit()
+    }
+}
+
+pub fn send_one(fd: i32, remote: &str, key: &str) -> i32 {
+    unsafe {
+        let r = std::ffi::CString::new(remote).unwrap();
+        let k = std::ffi::CString::new(key).unwrap();
+        lirc_send_one(fd, r.as_ptr(), k.as_ptr())
     }
 }
 
@@ -75,7 +83,8 @@ pub fn code2char(mut conf: lirc_config, mut code: String) -> Result<String, i32>
 pub fn get_local_socket(path: &str, quiet: bool) -> Result<i32, i32> {
     unsafe {
         let q = if quiet { 1 } else { 0 };
-        let r = lirc_get_local_socket(path.as_ptr(), q);
+        let p = std::ffi::CString::new(path).unwrap();
+        let r = lirc_get_local_socket(p.as_ptr(), q);
         if r < 0 {
             return Err(r);
         }
@@ -87,7 +96,8 @@ pub fn get_local_socket(path: &str, quiet: bool) -> Result<i32, i32> {
 pub fn get_remote_socket(host: &str, port: i32, quiet: bool) -> Result<i32, i32> {
     unsafe {
         let q: i32 = if quiet { 1 } else { 0 };
-        let r = lirc_get_remote_socket(host.as_ptr(), port, q);
+        let h = std::ffi::CString::new(host).unwrap();
+        let r = lirc_get_remote_socket(h.as_ptr(), port, q);
         if r < 0 {
             return Err(r);
         }
