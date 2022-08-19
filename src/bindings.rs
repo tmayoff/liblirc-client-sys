@@ -642,20 +642,16 @@ extern "C" {
         path: *const ::std::os::raw::c_char,
         quiet: ::std::os::raw::c_int,
     ) -> ::std::os::raw::c_int;
-}
 
-extern "C" {
+    #[deprecated]
     pub fn lirc_nextir() -> *mut ::std::os::raw::c_char;
-}
 
-extern "C" {
+    #[deprecated]
     pub fn lirc_ir2char(
         config: *mut lirc_config,
         code: *mut ::std::os::raw::c_char,
     ) -> *mut ::std::os::raw::c_char;
-}
 
-extern "C" {
     pub fn lirc_readconfig_only(
         file: *const ::std::os::raw::c_char,
         config: *mut *mut lirc_config,
@@ -663,55 +659,45 @@ extern "C" {
             unsafe extern "C" fn(s: *mut ::std::os::raw::c_char) -> ::std::os::raw::c_int,
         >,
     ) -> ::std::os::raw::c_int;
-}
-extern "C" {
+
     pub fn lirc_code2charprog(
         config: *mut lirc_config,
         code: *mut ::std::os::raw::c_char,
         string: *mut *mut ::std::os::raw::c_char,
         prog: *mut *mut ::std::os::raw::c_char,
     ) -> ::std::os::raw::c_int;
-}
-extern "C" {
+
     pub fn lirc_getsocketname(
         id: *const ::std::os::raw::c_char,
         buf: *mut ::std::os::raw::c_char,
         size: size_t,
     ) -> size_t;
-}
-extern "C" {
+
     pub fn lirc_getmode(config: *mut lirc_config) -> *const ::std::os::raw::c_char;
-}
-extern "C" {
+
     pub fn lirc_setmode(
         config: *mut lirc_config,
         mode: *const ::std::os::raw::c_char,
     ) -> *const ::std::os::raw::c_char;
-}
-extern "C" {
     pub fn lirc_command_init(
         ctx: *mut lirc_cmd_ctx,
         fmt: *const ::std::os::raw::c_char,
         ...
     ) -> ::std::os::raw::c_int;
-}
-extern "C" {
+
     pub fn lirc_command_run(
         ctx: *mut lirc_cmd_ctx,
         fd: ::std::os::raw::c_int,
     ) -> ::std::os::raw::c_int;
-}
-extern "C" {
+
     pub fn lirc_command_reply_to_stdout(ctx: *mut lirc_cmd_ctx);
-}
-extern "C" {
+
     pub fn lirc_send_one(
         fd: ::std::os::raw::c_int,
         remote: *const ::std::os::raw::c_char,
         keysym: *const ::std::os::raw::c_char,
     ) -> ::std::os::raw::c_int;
-}
-extern "C" {
+
     pub fn lirc_simulate(
         fd: ::std::os::raw::c_int,
         remote: *const ::std::os::raw::c_char,
@@ -719,14 +705,10 @@ extern "C" {
         scancode: ::std::os::raw::c_int,
         repeat: ::std::os::raw::c_int,
     ) -> ::std::os::raw::c_int;
-}
-extern "C" {
+
     pub fn lirc_get_remote_socket(
         address: *const ::std::os::raw::c_char,
         port: ::std::os::raw::c_int,
         quiet: ::std::os::raw::c_int,
     ) -> ::std::os::raw::c_int;
-}
-extern "C" {
-    
 }

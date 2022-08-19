@@ -25,6 +25,19 @@ pub fn readconfig(_path: Option<&str>) -> Result<lirc_config, i32> {
     }
 }
 
+pub fn readconfig_only(_file: Option<&str>) -> Result<lirc_config, i32> {
+    unsafe {
+        let mut raw = MaybeUninit::uninit();
+
+        let ret = lirc_readconfig_only(std::ptr::null(), raw.as_mut_ptr(), None);
+        if ret == -1 {
+            return Err(-ret);
+        }
+
+        Ok(std::ptr::read(raw.assume_init()))
+    }
+}
+
 pub fn freeconfig(mut conf: lirc_config) {
     unsafe {
         lirc_freeconfig(&mut conf);
@@ -103,5 +116,15 @@ pub fn get_remote_socket(host: &str, port: i32, quiet: bool) -> Result<i32, i32>
         }
 
         Ok(r)
+    }
+}
+
+pub fn set_mode(conf: &mut lirc_config, mode: &str) -> String {
+    unsafe {
+        let m = std::ffi::CString::new(mode).unwrap();
+        let ret = lirc_setmode(conf, m.as_ptr());
+        let ret_str = std::ffi::CStr::from_ptr(ret);
+
+        ret_str.to_str().unwrap().to_string()
     }
 }
