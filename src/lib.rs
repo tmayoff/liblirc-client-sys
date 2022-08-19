@@ -75,7 +75,7 @@ pub fn code2char(mut conf: lirc_config, code: &mut str) -> Result<String, i32> {
             return Err(ret);
         }
 
-        let a = std::ffi::CStr::from_ptr(c.assume_init() as *mut i8).to_str();
+        let a = std::ffi::CStr::from_ptr(c.assume_init() as *mut ::std::os::raw::c_char).to_str();
         Ok(String::from(a.unwrap()))
     }
 }
