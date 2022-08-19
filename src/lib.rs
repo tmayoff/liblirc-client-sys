@@ -67,16 +67,16 @@ pub fn nextcode() -> Result<String, i32> {
     }
 }
 
-pub fn code2char(mut conf: lirc_config, mut code: String) -> Result<String, i32> {
+pub fn code2char(mut conf: lirc_config, code: &mut str) -> Result<String, i32> {
     unsafe {
         let mut c = MaybeUninit::uninit();
-        let ret = lirc_code2char(&mut conf, code.as_mut_ptr() as *mut u8, c.as_mut_ptr());
+        let ret = lirc_code2char(&mut conf, code.as_mut_ptr(), c.as_mut_ptr());
         if ret != 0 {
             return Err(ret);
         }
 
-        let r = std::ffi::CStr::from_ptr(c.assume_init()).to_str();
-        Ok(String::from(r.unwrap()))
+        let a = std::ffi::CStr::from_ptr(c.assume_init() as *mut i8).to_str();
+        Ok(String::from(a.unwrap()))
     }
 }
 
