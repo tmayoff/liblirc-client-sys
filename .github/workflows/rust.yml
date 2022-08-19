@@ -19,6 +19,9 @@ jobs:
 
     - name: Update
       run: sudo apt-get update && sudo apt-get upgrade
+      
+    - name: Install Dependenies
+      run: sudo apt-get install lirc liblirc-dev
 
     - name: Build
       run: cargo build --verbose
