@@ -1,5 +1,7 @@
 [package]
-name = "liblirc-client-sys"
+name = "rust-lirc-client-sys"
+authers = ["Tyler Mayoff <tyler@tylermayoff.com>"]
+description = "A rust FFI wrapper library"
 version = "0.1.0"
 edition = "2021"
 build  = "src/build.rs"
