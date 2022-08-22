@@ -25,12 +25,12 @@ pub struct lirc_list {
 fn bindgen_test_layout_lirc_list() {
     assert_eq!(
         ::std::mem::size_of::<lirc_list>(),
-        8usize,
+        16usize,
         concat!("Size of: ", stringify!(lirc_list))
     );
     assert_eq!(
         ::std::mem::align_of::<lirc_list>(),
-        4usize,
+        8usize,
         concat!("Alignment of ", stringify!(lirc_list))
     );
     fn test_field_string() {
@@ -57,7 +57,7 @@ fn bindgen_test_layout_lirc_list() {
                 let ptr = uninit.as_ptr();
                 ::std::ptr::addr_of!((*ptr).next) as usize - ptr as usize
             },
-            4usize,
+            8usize,
             concat!(
                 "Offset of field: ",
                 stringify!(lirc_list),
@@ -81,12 +81,12 @@ pub struct lirc_code {
 fn bindgen_test_layout_lirc_code() {
     assert_eq!(
         ::std::mem::size_of::<lirc_code>(),
-        12usize,
+        24usize,
         concat!("Size of: ", stringify!(lirc_code))
     );
     assert_eq!(
         ::std::mem::align_of::<lirc_code>(),
-        4usize,
+        8usize,
         concat!("Alignment of ", stringify!(lirc_code))
     );
     fn test_field_remote() {
@@ -113,7 +113,7 @@ fn bindgen_test_layout_lirc_code() {
                 let ptr = uninit.as_ptr();
                 ::std::ptr::addr_of!((*ptr).button) as usize - ptr as usize
             },
-            4usize,
+            8usize,
             concat!(
                 "Offset of field: ",
                 stringify!(lirc_code),
@@ -130,7 +130,7 @@ fn bindgen_test_layout_lirc_code() {
                 let ptr = uninit.as_ptr();
                 ::std::ptr::addr_of!((*ptr).next) as usize - ptr as usize
             },
-            8usize,
+            16usize,
             concat!(
                 "Offset of field: ",
                 stringify!(lirc_code),
@@ -156,12 +156,12 @@ pub struct lirc_config {
 fn bindgen_test_layout_lirc_config() {
     assert_eq!(
         ::std::mem::size_of::<lirc_config>(),
-        20usize,
+        40usize,
         concat!("Size of: ", stringify!(lirc_config))
     );
     assert_eq!(
         ::std::mem::align_of::<lirc_config>(),
-        4usize,
+        8usize,
         concat!("Alignment of ", stringify!(lirc_config))
     );
     fn test_field_lircrc_class() {
@@ -188,7 +188,7 @@ fn bindgen_test_layout_lirc_config() {
                 let ptr = uninit.as_ptr();
                 ::std::ptr::addr_of!((*ptr).current_mode) as usize - ptr as usize
             },
-            4usize,
+            8usize,
             concat!(
                 "Offset of field: ",
                 stringify!(lirc_config),
@@ -205,7 +205,7 @@ fn bindgen_test_layout_lirc_config() {
                 let ptr = uninit.as_ptr();
                 ::std::ptr::addr_of!((*ptr).next) as usize - ptr as usize
             },
-            8usize,
+            16usize,
             concat!(
                 "Offset of field: ",
                 stringify!(lirc_config),
@@ -222,7 +222,7 @@ fn bindgen_test_layout_lirc_config() {
                 let ptr = uninit.as_ptr();
                 ::std::ptr::addr_of!((*ptr).first) as usize - ptr as usize
             },
-            12usize,
+            24usize,
             concat!(
                 "Offset of field: ",
                 stringify!(lirc_config),
@@ -239,7 +239,7 @@ fn bindgen_test_layout_lirc_config() {
                 let ptr = uninit.as_ptr();
                 ::std::ptr::addr_of!((*ptr).sockfd) as usize - ptr as usize
             },
-            16usize,
+            32usize,
             concat!(
                 "Offset of field: ",
                 stringify!(lirc_config),
@@ -271,12 +271,12 @@ pub struct lirc_config_entry {
 fn bindgen_test_layout_lirc_config_entry() {
     assert_eq!(
         ::std::mem::size_of::<lirc_config_entry>(),
-        48usize,
+        88usize,
         concat!("Size of: ", stringify!(lirc_config_entry))
     );
     assert_eq!(
         ::std::mem::align_of::<lirc_config_entry>(),
-        4usize,
+        8usize,
         concat!("Alignment of ", stringify!(lirc_config_entry))
     );
     fn test_field_prog() {
@@ -303,7 +303,7 @@ fn bindgen_test_layout_lirc_config_entry() {
                 let ptr = uninit.as_ptr();
                 ::std::ptr::addr_of!((*ptr).code) as usize - ptr as usize
             },
-            4usize,
+            8usize,
             concat!(
                 "Offset of field: ",
                 stringify!(lirc_config_entry),
@@ -320,7 +320,7 @@ fn bindgen_test_layout_lirc_config_entry() {
                 let ptr = uninit.as_ptr();
                 ::std::ptr::addr_of!((*ptr).rep_delay) as usize - ptr as usize
             },
-            8usize,
+            16usize,
             concat!(
                 "Offset of field: ",
                 stringify!(lirc_config_entry),
@@ -337,7 +337,7 @@ fn bindgen_test_layout_lirc_config_entry() {
                 let ptr = uninit.as_ptr();
                 ::std::ptr::addr_of!((*ptr).ign_first_events) as usize - ptr as usize
             },
-            12usize,
+            20usize,
             concat!(
                 "Offset of field: ",
                 stringify!(lirc_config_entry),
@@ -354,7 +354,7 @@ fn bindgen_test_layout_lirc_config_entry() {
                 let ptr = uninit.as_ptr();
                 ::std::ptr::addr_of!((*ptr).rep) as usize - ptr as usize
             },
-            16usize,
+            24usize,
             concat!(
                 "Offset of field: ",
                 stringify!(lirc_config_entry),
@@ -371,7 +371,7 @@ fn bindgen_test_layout_lirc_config_entry() {
                 let ptr = uninit.as_ptr();
                 ::std::ptr::addr_of!((*ptr).config) as usize - ptr as usize
             },
-            20usize,
+            32usize,
             concat!(
                 "Offset of field: ",
                 stringify!(lirc_config_entry),
@@ -388,7 +388,7 @@ fn bindgen_test_layout_lirc_config_entry() {
                 let ptr = uninit.as_ptr();
                 ::std::ptr::addr_of!((*ptr).change_mode) as usize - ptr as usize
             },
-            24usize,
+            40usize,
             concat!(
                 "Offset of field: ",
                 stringify!(lirc_config_entry),
@@ -405,7 +405,7 @@ fn bindgen_test_layout_lirc_config_entry() {
                 let ptr = uninit.as_ptr();
                 ::std::ptr::addr_of!((*ptr).flags) as usize - ptr as usize
             },
-            28usize,
+            48usize,
             concat!(
                 "Offset of field: ",
                 stringify!(lirc_config_entry),
@@ -422,7 +422,7 @@ fn bindgen_test_layout_lirc_config_entry() {
                 let ptr = uninit.as_ptr();
                 ::std::ptr::addr_of!((*ptr).mode) as usize - ptr as usize
             },
-            32usize,
+            56usize,
             concat!(
                 "Offset of field: ",
                 stringify!(lirc_config_entry),
@@ -439,7 +439,7 @@ fn bindgen_test_layout_lirc_config_entry() {
                 let ptr = uninit.as_ptr();
                 ::std::ptr::addr_of!((*ptr).next_config) as usize - ptr as usize
             },
-            36usize,
+            64usize,
             concat!(
                 "Offset of field: ",
                 stringify!(lirc_config_entry),
@@ -456,7 +456,7 @@ fn bindgen_test_layout_lirc_config_entry() {
                 let ptr = uninit.as_ptr();
                 ::std::ptr::addr_of!((*ptr).next_code) as usize - ptr as usize
             },
-            40usize,
+            72usize,
             concat!(
                 "Offset of field: ",
                 stringify!(lirc_config_entry),
@@ -473,7 +473,7 @@ fn bindgen_test_layout_lirc_config_entry() {
                 let ptr = uninit.as_ptr();
                 ::std::ptr::addr_of!((*ptr).next) as usize - ptr as usize
             },
-            44usize,
+            80usize,
             concat!(
                 "Offset of field: ",
                 stringify!(lirc_config_entry),
@@ -500,12 +500,12 @@ pub struct lirc_cmd_ctx {
 fn bindgen_test_layout_lirc_cmd_ctx() {
     assert_eq!(
         ::std::mem::size_of::<lirc_cmd_ctx>(),
-        784usize,
+        792usize,
         concat!("Size of: ", stringify!(lirc_cmd_ctx))
     );
     assert_eq!(
         ::std::mem::align_of::<lirc_cmd_ctx>(),
-        4usize,
+        8usize,
         concat!("Alignment of ", stringify!(lirc_cmd_ctx))
     );
     fn test_field_packet() {
@@ -600,7 +600,7 @@ fn bindgen_test_layout_lirc_cmd_ctx() {
                 let ptr = uninit.as_ptr();
                 ::std::ptr::addr_of!((*ptr).next) as usize - ptr as usize
             },
-            780usize,
+            784usize,
             concat!(
                 "Offset of field: ",
                 stringify!(lirc_cmd_ctx),
