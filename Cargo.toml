@@ -2,6 +2,7 @@
 name = "rust-lirc-client-sys"
 authers = ["Tyler Mayoff <tyler@tylermayoff.com>"]
 description = "A rust FFI wrapper library"
+license-file = "LICENSE"
 homepage = "https://github.com/tmayoff/rust-lirc-client-sys"
 documentation = "https://github.com/tmayoff/rust-lirc-client-sys"
 repository = "https://github.com/tmayoff/rust-lirc-client-sys"
