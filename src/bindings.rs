@@ -613,15 +613,12 @@ fn bindgen_test_layout_lirc_cmd_ctx() {
 }
 
 extern "C" {
-    pub fn lirc_init(
-        prog: *const ::std::os::raw::c_char,
-        verbose: u32,
-    ) -> i32;
+    pub fn lirc_init(prog: *const ::std::os::raw::c_char, verbose: u32) -> i32;
 
     pub fn lirc_deinit() -> ::std::os::raw::c_int;
 
     pub fn lirc_readconfig(
-        path: *const ::std::os::raw::c_char,
+        path: *const std::os::raw::c_char,
         config: *mut *mut lirc_config,
         check: ::std::option::Option<
             unsafe extern "C" fn(s: *mut ::std::os::raw::c_char) -> ::std::os::raw::c_int,
@@ -629,7 +626,7 @@ extern "C" {
     ) -> ::std::os::raw::c_int;
 
     pub fn lirc_freeconfig(config: *mut lirc_config);
- 
+
     pub fn lirc_nextcode(code: *mut *mut ::std::os::raw::c_char) -> ::std::os::raw::c_int;
 
     pub fn lirc_code2char(

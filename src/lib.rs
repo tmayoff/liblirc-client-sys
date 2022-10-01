@@ -2,23 +2,20 @@
 #![allow(non_camel_case_types)]
 #![allow(non_snake_case)]
 
-use std::{ffi::{CString}, mem::MaybeUninit};
+use std::{ffi::CString, mem::MaybeUninit};
 
 include!("./bindings.rs");
 
-pub fn readconfig(_path: Option<&str>) -> Result<lirc_config, i32> {
+pub fn readconfig(path: Option<String>) -> Result<lirc_config, std::io::Error> {
+    let c_path = path.map(|p| CString::new(p).unwrap());
+    let c_str = c_path.map(|p| p.as_ptr());
+
     unsafe {
         let mut raw = MaybeUninit::uninit();
-
-        // let ret: i32;
-        // if path.is_some() {
-        //     ret = lirc_readconfig(path.expect("None").as_ptr(), raw.as_mut_ptr(), None);
-        // } else {
-        let ret = lirc_readconfig(std::ptr::null(), raw.as_mut_ptr(), None);
-        // }
+        let ret = lirc_readconfig(c_str.unwrap(), raw.as_mut_ptr(), None);
 
         if ret != 0 {
-            return Err(ret);
+            return Err(std::io::Error::last_os_error());
         }
 
         Ok(std::ptr::read(raw.assume_init()))
@@ -44,26 +41,39 @@ pub fn freeconfig(mut conf: lirc_config) {
     }
 }
 
-#[must_use]
-pub fn init(prog: &str, verbose: u32) -> i32{
+pub fn init(prog: &str, verbose: u32) -> Result<(), i32> {
     unsafe {
         let prog_str = CString::new(prog).unwrap();
-        lirc_init(prog_str.as_ptr(), verbose)
+        let ret = lirc_init(prog_str.as_ptr(), verbose);
+        if ret != 0 {
+            return Err(ret);
+        }
+
+        Ok(())
     }
 }
 
-#[must_use]
-pub fn deinit() -> i32{
+pub fn deinit() -> Result<(), i32> {
     unsafe {
-        lirc_deinit()
+        let ret = lirc_deinit();
+        if ret != 0 {
+            return Err(ret);
+        }
+
+        Ok(())
     }
 }
 
-pub fn send_one(fd: i32, remote: &str, key: &str) -> i32 {
+pub fn send_one(fd: i32, remote: &str, key: &str) -> Result<(), i32> {
     unsafe {
         let r = std::ffi::CString::new(remote).unwrap();
         let k = std::ffi::CString::new(key).unwrap();
-        lirc_send_one(fd, r.as_ptr(), k.as_ptr())
+        let ret = lirc_send_one(fd, r.as_ptr(), k.as_ptr());
+        if ret != 0 {
+            return Err(ret);
+        }
+
+        Ok(())
     }
 }
 
@@ -119,12 +129,12 @@ pub fn get_remote_socket(host: &str, port: i32, quiet: bool) -> Result<i32, i32>
     }
 }
 
-pub fn set_mode(conf: &mut lirc_config, mode: &str) -> String {
+pub fn set_mode(conf: &mut lirc_config, mode: &str) -> Result<String, ()> {
     unsafe {
         let m = std::ffi::CString::new(mode).unwrap();
         let ret = lirc_setmode(conf, m.as_ptr());
         let ret_str = std::ffi::CStr::from_ptr(ret);
 
-        ret_str.to_str().unwrap().to_string()
+        Ok(ret_str.to_str().unwrap().to_string())
     }
 }
